@@ -1,9 +1,9 @@
 import { Text, View } from 'react-native';
+import Login from '../../components/Login';
+import Signup from '@/components/Signup';
 
 export default function Home() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home Screen</Text>
-    </View>
+    <Signup/>
   );
 }
