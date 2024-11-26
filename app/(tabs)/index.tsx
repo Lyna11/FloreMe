@@ -1,9 +1,7 @@
-import { Text, View } from 'react-native';
-import Login from '../../components/Login';
-import Signup from '@/components/Signup';
+import { Text, View } from "react-native";
+import Login from "../auth/Login";
+import Signup from "@/app/auth/Signup";
 
 export default function Home() {
-  return (
-    <Signup/>
-  );
+  return <Login />;
 }
