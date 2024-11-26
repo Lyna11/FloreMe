@@ -4,4 +4,4 @@ import Signup from "@/app/auth/Signup";
 
 export default function Home() {
   return <Login />;
-
+}
