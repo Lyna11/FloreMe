@@ -1,165 +1,101 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text, Image } from "react-native";
 import { useRouter } from "expo-router";
-import { initializeApp, getApps, getApp } from "firebase/app";
-
-import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import {
   createUserWithEmailAndPassword,
-  initializeAuth,
   fetchSignInMethodsForEmail,
-  getAuth,
 } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
-// Configuration Firebase (remplacez par vos paramètres Firebase)
-//const auth = getAuth();
 
-import { NavigationProp } from "@react-navigation/native";
+import InputField from "@/components/InputField";
+import TermsAndConditions from "@/components/TermsAndConditions";
+import ErrorMessage from "@/components/ErrorMessage";
 
 const Signup: React.FC = () => {
-  const [Email, setEmail] = useState<string>("");
-  const [Password, setPassword] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
-  const [emailDejaUtilise, setEmailDejaUtilise] = useState(false);
-  const [emailInvalide, setEmailInvalide] = useState(false);
-  const [motsDePasseDifferents, setMotsDePasseDifferents] = useState(false);
-  const [confirmationMotDePasse, setConfirmationMotDePasse] = useState("");
-  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmationPassword, setConfirmationPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [message, setMessage] = useState("");
   const router = useRouter();
 
-  const validateEmail = (Email: string) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(Email);
-  };
-  const checkExistingEmail = (Email: string) => {
-    return new Promise((resolve, reject) => {
-      fetchSignInMethodsForEmail(auth, Email)
-        .then((signInMethods) => {
-          if (signInMethods && signInMethods.length > 0) {
-            setEmailDejaUtilise(true);
-            resolve(true);
-          } else {
-            setEmailDejaUtilise(false);
-            resolve(false);
-          }
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
+  const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
+
   const handleSignup = async () => {
-    setEmailInvalide(false);
-    setMotsDePasseDifferents(false);
     setMessage("");
 
-    setMotsDePasseDifferents(false);
-    if (!validateEmail(Email)) {
-      setEmailInvalide(true);
+    if (!validateEmail(email)) {
       setMessage("L'e-mail n'est pas valide");
       return;
     }
-    if (Password !== confirmationMotDePasse) {
-      setMotsDePasseDifferents(true);
+
+    if (password !== confirmationPassword) {
       setMessage("Les mots de passe ne correspondent pas");
       return;
     }
+
     if (
-      username.trim() === "" ||
-      Email.trim() === "" ||
-      Password.trim() === "" ||
-      confirmationMotDePasse.trim() === ""
+      !username.trim() ||
+      !email.trim() ||
+      !password.trim() ||
+      !confirmationPassword.trim()
     ) {
       setMessage("Veuillez remplir tous les champs");
       return;
     }
+
     try {
-      const emailExists = await fetchSignInMethodsForEmail(auth, Email);
+      const emailExists = await fetchSignInMethodsForEmail(auth, email);
       if (emailExists.length > 0) {
         setMessage("L'adresse e-mail existe déjà");
         return;
       }
 
-      await createUserWithEmailAndPassword(auth, Email, Password);
-      router.push("../auth/Login"); // Naviguer vers la page Login
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.push("../auth/login");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : String(error));
     }
   };
+
   return (
     <View style={styles.container}>
       <Image
-        source={require("../../assets/images/signup1.png")}
         style={styles.image}
+        source={require("../../assets/images/signup1.png")}
       />
-      <Text style={styles.title}>Register</Text>
-      <Text style={styles.subtitle}>Create your new account</Text>
-      <TextInput
+      <Text style={styles.title}>Create an account</Text>
+      <InputField
         placeholder="Username"
         value={username}
-        onChangeText={(text) => setUsername(text)}
-        style={[styles.input]}
-        placeholderTextColor="#aaa"
+        onChangeText={setUsername}
       />
-      <TextInput
+      <InputField
         placeholder="Email"
-        value={Email}
+        value={email}
+        onChangeText={setEmail}
         keyboardType="email-address"
-        onChangeText={(text) => setEmail(text)}
-        style={[styles.input, emailInvalide && styles.inputInvalid]}
-        placeholderTextColor="#aaa"
       />
-      <TextInput
+      <InputField
         placeholder="Password"
-        value={Password}
+        value={password}
+        onChangeText={setPassword}
         secureTextEntry
-        onChangeText={(text) => setPassword(text)}
-        style={styles.input}
-        placeholderTextColor="#aaa"
       />
-      <TextInput
+      <InputField
         placeholder="Confirm Password"
-        style={[styles.input, motsDePasseDifferents && styles.inputInvalid]}
-        secureTextEntry={true}
-        value={confirmationMotDePasse}
-        onChangeText={setConfirmationMotDePasse}
-        placeholderTextColor="#aaa"
+        value={confirmationPassword}
+        onChangeText={setConfirmationPassword}
+        secureTextEntry
       />
-
-      <View style={styles.termsContainer}>
-        <Text>By signing up you agree to our </Text>
-        <TouchableOpacity>
-          <Text style={styles.link}>Terms of Use</Text>
-        </TouchableOpacity>
-        <Text> and </Text>
-        <TouchableOpacity>
-          <Text style={styles.link}>Privacy Policy</Text>
-        </TouchableOpacity>
-      </View>
+      <TermsAndConditions />
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("../auth/Login")}>
+      <TouchableOpacity onPress={() => router.push("../auth/login")}>
         <Text style={styles.link}>Already have an account? Login</Text>
       </TouchableOpacity>
-      {message && (
-        <Text
-          style={{
-            marginTop: 0,
-            color: "red",
-            textAlign: "center",
-          }}
-        >
-          {message}
-        </Text>
-      )}
+      <ErrorMessage message={message} />
     </View>
   );
 };
@@ -169,41 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     padding: 20,
-    justifyContent: "center",
-  },
-  image: {
-    width: "100%",
-    height: 150,
-    resizeMode: "contain",
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 10,
-    color: "#2E7D32",
-  },
-  subtitle: {
-    textAlign: "center",
-    marginBottom: 20,
-    color: "#666",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 15,
-    color: "#333",
-  },
-  inputInvalid: {
-    borderColor: "red",
-  },
-  termsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginBottom: 20,
     justifyContent: "center",
   },
   button: {
@@ -216,6 +117,20 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    marginBottom: 50,
+    transform: [{ scale: 1 }],
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 40,
+    color: "#2E7D32",
   },
   link: {
     color: "#2E7D32",

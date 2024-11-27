@@ -16,7 +16,7 @@ const Logout: React.FC = () => {
       await AsyncStorage.removeItem("user");
       console.log("Utilisateur déconnecté avec succès.");
       // Redirige vers la page de connexion
-      router.push("../auth/Login");
+      router.replace("../auth/login");
     } catch (error) {
       console.error("Erreur lors de la déconnexion :", error);
     }
