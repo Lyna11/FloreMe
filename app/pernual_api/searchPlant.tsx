@@ -6,7 +6,7 @@ import SearchInput from "@/components/SearchInput";
 import PlantCard from "@/components/PlantCard";
 import PlantModal from "@/components/PlantModal";
 import { router } from "expo-router";
- 
+
 interface Section {
   type: string;
   description: string;
@@ -42,7 +42,7 @@ const SearchPlant: React.FC = () => {
     try {
       const pagesToFetch = 5; // Vous pouvez changer ce nombre pour plus ou moins de pages.
       const fetches = [];
- 
+
       for (let page = 1; page <= pagesToFetch; page++) {
         fetches.push(
           fetch(
@@ -52,14 +52,14 @@ const SearchPlant: React.FC = () => {
             .then((data) => data.data || [])
         );
       }
- 
+
       // Attendez que toutes les requêtes soient terminées et combinez les résultats.
       const results = await Promise.all(fetches);
       const allPlants = results.flat(); // Aplatir le tableau de tableaux pour obtenir un tableau unique.
- 
+
       // Mélangez les plantes pour obtenir un ordre aléatoire.
       const shuffledPlants = allPlants.sort(() => Math.random() - 0.5);
- 
+
       // Définissez les plantes populaires avec un sous-ensemble du résultat mélangé (par exemple, les 20 premières).
       setPopularPlants(shuffledPlants.slice(0, 20));
     } catch (error) {
@@ -67,7 +67,7 @@ const SearchPlant: React.FC = () => {
     }
     setLoading(false);
   };
- 
+
   const fetchPlantDetails = async (id: number) => {
     try {
       const response = await fetch(

@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore"; // Import Firestore functions
 import { getApp } from "firebase/app"; // Import Firebase app
 import { auth } from "../config/firebaseConfig"; // Import Firebase auth
- 
+
 export interface Plant {
   id: number;
   common_name: string | null;
@@ -18,17 +18,17 @@ export interface Plant {
 }
 interface PlantCardProps {
   plant: Plant;
- 
+
   onPress: () => void;
 }
  
 const PlantCard: React.FC<PlantCardProps> = ({ plant, onPress }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
- 
+
   // Fonction pour gérer le changement d'état du favori et sauvegarder dans Firestore
   const toggleFavorite = async () => {
     setIsFavorite(!isFavorite);
- 
+
     if (!isFavorite) {
       try {
         await saveToFirestore(plant);
@@ -37,12 +37,12 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onPress }) => {
       }
     }
   };
- 
+
   // Fonction pour sauvegarder la plante dans Firestore
   const saveToFirestore = async (plant: Plant) => {
     const db = getFirestore(getApp());
     const plantsCollection = collection(db, "favoritePlants"); // Nom de la collection Firestore
- 
+
     // Sauvegarder l'objet plante
     await addDoc(plantsCollection, {
       idut: auth.currentUser?.uid, // Ajout de l'ID de l'utilisateur

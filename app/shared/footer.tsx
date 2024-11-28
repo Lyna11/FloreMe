@@ -1,7 +1,7 @@
 import React from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
- 
+
 type FooterProps = {
   onHomePress: () => void;
   onFavoritePress: () => void;

@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
- 
+
 import InputField from "@/components/InputField";
 import TermsAndConditions from "@/components/TermsAndConditions";
 import ErrorMessage from "@/components/ErrorMessage";
@@ -21,7 +21,7 @@ const Signup: React.FC = () => {
   const router = useRouter();
  
   const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
- 
+
   const saveUsername = async (username: string) => {
     try {
       await AsyncStorage.setItem("username", username);
@@ -61,7 +61,7 @@ const Signup: React.FC = () => {
  
       await createUserWithEmailAndPassword(auth, email, password);
       await saveUsername(username);
- 
+
       router.push("../auth/login");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : String(error));

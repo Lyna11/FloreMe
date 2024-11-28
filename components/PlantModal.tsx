@@ -8,7 +8,7 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
- 
+
 interface Section {
   type: string;
   description: string;
