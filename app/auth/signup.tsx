@@ -6,11 +6,12 @@ import {
   fetchSignInMethodsForEmail,
 } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+ 
 import InputField from "@/components/InputField";
 import TermsAndConditions from "@/components/TermsAndConditions";
 import ErrorMessage from "@/components/ErrorMessage";
-
+ 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,22 +19,29 @@ const Signup: React.FC = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const router = useRouter();
-
+ 
   const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
-
+ 
+  const saveUsername = async (username: string) => {
+    try {
+      await AsyncStorage.setItem("username", username);
+    } catch (error) {
+      console.error("Error saving username:", error);
+    }
+  };
   const handleSignup = async () => {
     setMessage("");
-
+ 
     if (!validateEmail(email)) {
       setMessage("L'e-mail n'est pas valide");
       return;
     }
-
+ 
     if (password !== confirmationPassword) {
       setMessage("Les mots de passe ne correspondent pas");
       return;
     }
-
+ 
     if (
       !username.trim() ||
       !email.trim() ||
@@ -43,21 +51,23 @@ const Signup: React.FC = () => {
       setMessage("Veuillez remplir tous les champs");
       return;
     }
-
+ 
     try {
       const emailExists = await fetchSignInMethodsForEmail(auth, email);
       if (emailExists.length > 0) {
         setMessage("L'adresse e-mail existe déjà");
         return;
       }
-
+ 
       await createUserWithEmailAndPassword(auth, email, password);
+      await saveUsername(username);
+ 
       router.push("../auth/login");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : String(error));
     }
   };
-
+ 
   return (
     <View style={styles.container}>
       <Image
@@ -99,7 +109,7 @@ const Signup: React.FC = () => {
     </View>
   );
 };
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -137,5 +147,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
+ 
 export default Signup;
