@@ -73,6 +73,13 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="auth/delete"
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
           name="+not-found"
           options={{
             headerShown: false,
