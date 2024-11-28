@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
-
+import SearchPlant from "../pernual_api/searchPlant";
 import LoginForm from "../../components/LoginForm";
 import WelcomeMessage from "../../components/WelcomeMessage";
 
@@ -62,7 +62,7 @@ const Login: React.FC = () => {
   return (
     <View style={styles.container}>
       {isLoggedIn ? (
-        <WelcomeMessage username={username} onLogout={handleLogout} />
+        <SearchPlant />
       ) : (
         <LoginForm
           email={email}

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
-import Header from '../shared/header';
-import Footer from '../shared/footer';
-import SearchInput from '@/components/SearchInput';
-import PlantCard from '@/components/PlantCard';
-import PlantModal from '@/components/PlantModal';
-import { router } from 'expo-router';
+import React, { useState, useEffect } from "react";
+import { View, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import Header from "../shared/header";
+import Footer from "../shared/footer";
+import SearchInput from "@/components/SearchInput";
+import PlantCard from "@/components/PlantCard";
+import PlantModal from "@/components/PlantModal";
+import { router } from "expo-router";
 
 interface Section {
   type: string;
@@ -24,10 +24,12 @@ interface PlantCareGuide extends Plant {
 }
 
 const SearchPlant: React.FC = () => {
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>("");
   const [popularPlants, setPopularPlants] = useState<Plant[]>([]);
   const [searchResults, setSearchResults] = useState<Plant[]>([]);
-  const [selectedPlant, setSelectedPlant] = useState<PlantCareGuide | null>(null);
+  const [selectedPlant, setSelectedPlant] = useState<PlantCareGuide | null>(
+    null
+  );
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -40,22 +42,24 @@ const SearchPlant: React.FC = () => {
     try {
       const pagesToFetch = 5; // Vous pouvez changer ce nombre pour plus ou moins de pages.
       const fetches = [];
-  
+
       for (let page = 1; page <= pagesToFetch; page++) {
         fetches.push(
-          fetch(`https://perenual.com/api/species-list?key=sk-5fho6746e365114cf7798&page=${page}`)
-            .then(response => response.json())
-            .then(data => data.data || [])
+          fetch(
+            `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a77785&page=${page}`
+          )
+            .then((response) => response.json())
+            .then((data) => data.data || [])
         );
       }
-  
+
       // Attendez que toutes les requêtes soient terminées et combinez les résultats.
       const results = await Promise.all(fetches);
       const allPlants = results.flat(); // Aplatir le tableau de tableaux pour obtenir un tableau unique.
-  
+
       // Mélangez les plantes pour obtenir un ordre aléatoire.
       const shuffledPlants = allPlants.sort(() => Math.random() - 0.5);
-  
+
       // Définissez les plantes populaires avec un sous-ensemble du résultat mélangé (par exemple, les 20 premières).
       setPopularPlants(shuffledPlants.slice(0, 20));
     } catch (error) {
@@ -63,12 +67,11 @@ const SearchPlant: React.FC = () => {
     }
     setLoading(false);
   };
-  
 
   const fetchPlantDetails = async (id: number) => {
     try {
       const response = await fetch(
-        `https://perenual.com/api/species-care-guide-list?key=sk-5fho6746e365114cf7798&species_id=${id}`
+        `https://perenual.com/api/species-care-guide-list?key=sk-3O5R6745e306933a77785&species_id=${id}`
       );
       const data = await response.json();
       setSelectedPlant(data.data[0]);
@@ -87,7 +90,7 @@ const SearchPlant: React.FC = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://perenual.com/api/species-list?key=sk-5fho6746e365114cf7798&q=${query}`
+        `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a77785&q=${query}`
       );
       const data = await response.json();
       setSearchResults(data.data || []);
@@ -99,8 +102,15 @@ const SearchPlant: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Header title="Accueil" onIconPress={() => console.log('Icône de la Terre pressée!')} />
-      <SearchInput query={query} setQuery={setQuery} searchPlants={searchPlants} />
+      <Header
+        title="Accueil"
+        onIconPress={() => console.log("Icône de la Terre pressée!")}
+      />
+      <SearchInput
+        query={query}
+        setQuery={setQuery}
+        searchPlants={searchPlants}
+      />
       <FlatList
         data={searchResults.length > 0 ? searchResults : popularPlants}
         keyExtractor={(item) => item.id.toString()}
@@ -109,12 +119,16 @@ const SearchPlant: React.FC = () => {
         )}
       />
       {loading && <ActivityIndicator size="large" color="#4CAF50" />}
-      <PlantModal plant={selectedPlant} visible={modalVisible} onClose={() => setModalVisible(false)} />
+      <PlantModal
+        plant={selectedPlant}
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
       <Footer
-        onHomePress={() => router.push('../pernual_api/searchPlant')}
-        onFavoritePress={() => console.log('Favoris')}
-        onCartPress={() => console.log('Panier')}
-        onProfilePress={() => console.log('Profil')}
+        onHomePress={() => router.replace("/pernual_api/searchPlant")}
+        onFavoritePress={() => router.replace("/favoris/plantfavoris")}
+        onCartPress={() => router.replace("/plantid_api/imagePickerComponent")}
+        onProfilePress={() => console.log("Profil")}
       />
     </View>
   );
@@ -124,8 +138,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor: 'white',
-    width: '100%',
+    backgroundColor: "white",
+    width: "100%",
   },
 });
 

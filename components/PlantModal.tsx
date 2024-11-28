@@ -1,6 +1,13 @@
-import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { Modal, View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import {
+  Modal,
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 
 interface Section {
   type: string;
@@ -21,11 +28,11 @@ interface PlantModalProps {
 
 const renderIcon = (type: string) => {
   switch (type) {
-    case 'watering':
+    case "watering":
       return <Ionicons name="water-outline" size={24} color="blue" />;
-    case 'sunlight':
+    case "sunlight":
       return <Ionicons name="sunny" size={24} color="#947100" />;
-    case 'pruning':
+    case "pruning":
       return <Ionicons name="cut-outline" size={24} color="red" />;
     default:
       return null;
@@ -41,7 +48,9 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, visible, onClose }) => {
         <View style={styles.modalContent}>
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             <Text style={styles.modalTitle}>{plant.common_name}</Text>
-            <Text style={styles.modalSubtitle}>{plant.scientific_name.join(', ')}</Text>
+            <Text style={styles.modalSubtitle}>
+              {plant.scientific_name.join(", ")}
+            </Text>
             {plant?.section.map((sec, index) => (
               <View key={index} style={styles.sectionContainer}>
                 <Text style={styles.sectionTitle}>
@@ -61,36 +70,36 @@ const PlantModal: React.FC<PlantModalProps> = ({ plant, visible, onClose }) => {
 const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: '80%',
-    maxHeight: '80%', 
+    width: "80%",
+    maxHeight: "80%",
   },
   scrollContainer: {
-    paddingBottom: 20, 
+    paddingBottom: 20,
   },
   modalTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   modalSubtitle: {
     fontSize: 18,
     marginBottom: 10,
-    color: 'gray',
+    color: "gray",
   },
   sectionContainer: {
     marginBottom: 15,
   },
   sectionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
