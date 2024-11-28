@@ -132,12 +132,12 @@ const ImagePickerComponent = () => {
     <View style={styles.container}>
       <Header
         title="Identify plants"
-        onIconPress={() => console.log("Icône pressée!")}
+        onIconPress={() => router.replace("/map/map")}
       />
       {/* Masquer l'image de fond et les boutons lorsque showContent est false */}
       {showContent ? (
         <ImageBackground
-          source={require("../../assets/images/scan1.webp")}
+          source={require("../../assets/images/cameraplant2.png")}
           style={styles.image}
         ></ImageBackground>
       ) : null}
@@ -147,7 +147,7 @@ const ImagePickerComponent = () => {
           onPress={handleImagePicker}
           style={styles.iconContainer}
         >
-          <Ionicons name="scan-circle-outline" size={50} color="white" />
+          <Ionicons name="scan-circle-outline" size={50} color="black" />
           <Text style={styles.buttonText}>Choose or take a photo</Text>
         </TouchableOpacity>
       )}
@@ -163,7 +163,7 @@ const ImagePickerComponent = () => {
         onHomePress={() => router.replace("/pernual_api/searchPlant")}
         onFavoritePress={() => router.replace("/favoris/plantfavoris")}
         onCartPress={() => router.replace("/plantid_api/imagePickerComponent")}
-        onProfilePress={() => console.log("Profil")}
+        onProfilePress={() => router.replace("/profile/profile")}
       />
     </View>
   );
@@ -177,21 +177,21 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 400, // Taille fixe de l'image
+    height: 350, // Taille fixe de l'image
     resizeMode: "cover",
     marginBottom: 10, // Réduit l'espace entre l'image et les icônes
-    transform: [{ scale: 2 }],
+    transform: [{ scale: 1.5 }],
     paddingTop: 50,
-    marginTop: 165,
+    marginTop: 50,
   },
   iconContainer: {
     flexDirection: "column", // Changer la direction en colonne
     justifyContent: "center", // Centrer les éléments verticalement
     alignItems: "center", // Centrer les éléments horizontalement
-    marginVertical: 20,
+    marginVertical: 100,
   },
   buttonText: {
-    color: "white",
+    color: "black",
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 5, // Espacement entre l'icône et le text

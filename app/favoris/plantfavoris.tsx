@@ -160,7 +160,7 @@ const PlantFavoris = () => {
       <View style={styles.noFavoritesContainer}>
         <Header
           title="Favoris"
-          onIconPress={() => console.log("Icône de la Terre pressée!")}
+          onIconPress={() => router.replace("/map/map")}
         />
         <Text style={styles.noFavoritesText}>
           Vous n'avez pas encore de plantes favorites.
@@ -177,7 +177,7 @@ const PlantFavoris = () => {
           onCartPress={() =>
             router.replace("/plantid_api/imagePickerComponent")
           }
-          onProfilePress={() => console.log("Profil")}
+          onProfilePress={() => router.replace("/profile/profile")}
         />
       </View>
     );
@@ -185,10 +185,7 @@ const PlantFavoris = () => {
 
   return (
     <View style={styles.container}>
-      <Header
-        title="Favoris"
-        onIconPress={() => console.log("Icône de la Terre pressée!")}
-      />
+      <Header title="Favoris" onIconPress={() => router.replace("/map/map")} />
       <FlatList
         data={plants}
         keyExtractor={(item) => item.id}
@@ -222,7 +219,7 @@ const PlantFavoris = () => {
         onHomePress={() => router.replace("/pernual_api/searchPlant")}
         onFavoritePress={() => router.replace("/favoris/plantfavoris")}
         onCartPress={() => router.replace("/plantid_api/imagePickerComponent")}
-        onProfilePress={() => console.log("Profil")}
+        onProfilePress={() => router.replace("/profile/profile")}
       />
       <PlantModal
         plant={selectedPlant}

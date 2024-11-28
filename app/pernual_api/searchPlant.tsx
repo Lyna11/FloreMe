@@ -11,18 +11,18 @@ interface Section {
   type: string;
   description: string;
 }
- 
+
 interface Plant {
   id: number;
   common_name: string | null;
   scientific_name: string[];
   default_image: { regular_url: string } | null;
 }
- 
+
 interface PlantCareGuide extends Plant {
   section: Section[]; // Care guide sections
 }
- 
+
 const SearchPlant: React.FC = () => {
   const [query, setQuery] = useState<string>("");
   const [popularPlants, setPopularPlants] = useState<Plant[]>([]);
@@ -32,11 +32,11 @@ const SearchPlant: React.FC = () => {
   );
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
- 
+
   useEffect(() => {
     fetchPopularPlants();
   }, []);
- 
+
   const fetchPopularPlants = async () => {
     setLoading(true);
     try {
@@ -46,7 +46,7 @@ const SearchPlant: React.FC = () => {
       for (let page = 1; page <= pagesToFetch; page++) {
         fetches.push(
           fetch(
-            `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a77785&page=${page}`
+            `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a7778&page=${page}`
           )
             .then((response) => response.json())
             .then((data) => data.data || [])
@@ -71,7 +71,7 @@ const SearchPlant: React.FC = () => {
   const fetchPlantDetails = async (id: number) => {
     try {
       const response = await fetch(
-        `https://perenual.com/api/species-care-guide-list?key=sk-3O5R6745e306933a77785&species_id=${id}`
+        `https://perenual.com/api/species-care-guide-list?key=sk-3O5R6745e306933a7778&species_id=${id}`
       );
       const data = await response.json();
       setSelectedPlant(data.data[0]);
@@ -80,17 +80,17 @@ const SearchPlant: React.FC = () => {
       console.error(error);
     }
   };
- 
+
   const searchPlants = async () => {
     if (!query.trim()) {
       setSearchResults([]);
       return;
     }
- 
+
     setLoading(true);
     try {
       const response = await fetch(
-        `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a77785&q=${query}`
+        `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a7778&q=${query}`
       );
       const data = await response.json();
       setSearchResults(data.data || []);
@@ -99,13 +99,10 @@ const SearchPlant: React.FC = () => {
     }
     setLoading(false);
   };
- 
+
   return (
     <View style={styles.container}>
-      <Header
-        title="Accueil"
-        onIconPress={() => console.log("Icône de la Terre pressée!")}
-      />
+      <Header title="Accueil" onIconPress={() => router.replace("/map/map")} />
       <SearchInput
         query={query}
         setQuery={setQuery}
@@ -128,12 +125,12 @@ const SearchPlant: React.FC = () => {
         onHomePress={() => router.replace("/pernual_api/searchPlant")}
         onFavoritePress={() => router.replace("/favoris/plantfavoris")}
         onCartPress={() => router.replace("/plantid_api/imagePickerComponent")}
-        onProfilePress={() => console.log("Profil")}
+        onProfilePress={() => router.replace("/profile/profile")}
       />
     </View>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -142,5 +139,5 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
- 
+
 export default SearchPlant;

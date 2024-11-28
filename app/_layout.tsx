@@ -59,6 +59,20 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
+          name="map/map"
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="profile/profile"
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
           name="+not-found"
           options={{
             headerShown: false,
