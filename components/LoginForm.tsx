@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: "red",
     marginTop: 10,
+    textAlign: "center",
   },
 });
 

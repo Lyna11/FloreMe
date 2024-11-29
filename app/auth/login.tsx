@@ -6,6 +6,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
 import SearchPlant from "../pernual_api/searchPlant";
 import LoginForm from "../../components/LoginForm";
+import { FirebaseError } from "firebase/app"; // Import FirebaseError
+
+interface User {
+  email: string;
+}
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -28,29 +33,56 @@ const Login: React.FC = () => {
         setIsLoggedIn(true);
       }
     } catch (error) {
+      setErrorMessage("Error checking session: " + (error as Error).message);
       console.error("Error checking session:", error);
     }
   };
 
-  const saveSession = async (user: any) => {
+  const saveSession = async (user: User) => {
     try {
       await AsyncStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
+      setErrorMessage("Error saving session: " + (error as Error).message);
       console.error("Error saving session:", error);
     }
   };
 
   const handleLogin = () => {
+    if (!email || !password) {
+      setErrorMessage("Please enter both email and password.");
+      return;
+    }
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        if (!user.email) {
+          setErrorMessage("Login failed: Email is null.");
+          return;
+        }
         setUsername(email.split("@")[0]);
         setIsLoggedIn(true);
-        saveSession(user);
-        setErrorMessage("");
+        saveSession({ email: user.email });
+        setErrorMessage(""); // Clear error message on successful login
       })
-      .catch((error) => {
-        setErrorMessage("Login failed: " + error.message);
+      .catch((error: FirebaseError) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        switch (errorCode) {
+          case "auth/invalid-email":
+            setErrorMessage("Invalid email address format.");
+            break;
+          case "auth/invalid-credential":
+            setErrorMessage("email or password Incorrect .");
+            break;
+          case "auth/network-request-failed":
+            setErrorMessage("Network error, please try again later.");
+            break;
+          default:
+            setErrorMessage("Login failed: " + errorMessage);
+            break;
+        }
       });
   };
 
@@ -81,7 +113,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    //centrer le contenu
     justifyContent: "center",
   },
 });
