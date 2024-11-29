@@ -102,7 +102,7 @@ const SearchPlant: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Header title="Accueil" onIconPress={() => router.replace("/map/map")} />
+      <Header title="Home" onIconPress={() => router.replace("/map/map")} />
       <SearchInput
         query={query}
         setQuery={setQuery}

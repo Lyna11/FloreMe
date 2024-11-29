@@ -76,14 +76,14 @@ const PlantMapComponent = () => {
         onIconPress={() => router.replace("/map/map")}
       />
       <ImageBackground
-        source={require("../../assets/images/map8.jpg")} // Remplacez par le chemin de votre image
+        source={require("../../assets/images/map8.jpg")}
         style={styles.backgroundImage}
       >
         <View style={styles.container}>
           <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchBar}
-              placeholder="Rechercher une plante..."
+              placeholder="Search for a plant..."
               placeholderTextColor="#888"
               value={query}
               onChangeText={(text) => setQuery(text)}
@@ -168,12 +168,12 @@ const styles = StyleSheet.create({
   clearButton: {
     position: "absolute",
     right: 15,
-    top: "50%",
+    top: "40%",
     transform: [{ translateY: -12 }],
   },
   suggestionsList: {
     marginTop: 10,
-    maxHeight: 300, // Limiter la hauteur pour le scroll
+    maxHeight: 600, // Limiter la hauteur pour le scroll
   },
   suggestionItem: {
     backgroundColor: "#FFF",

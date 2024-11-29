@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import InputField from "@/components/InputField";
 import TermsAndConditions from "@/components/TermsAndConditions";
 import ErrorMessage from "@/components/ErrorMessage";
- 
+
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ const Signup: React.FC = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const router = useRouter();
- 
+
   const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
 
   const saveUsername = async (username: string) => {
@@ -31,34 +31,34 @@ const Signup: React.FC = () => {
   };
   const handleSignup = async () => {
     setMessage("");
- 
+
     if (!validateEmail(email)) {
-      setMessage("L'e-mail n'est pas valide");
+      setMessage("The email is not valid");
       return;
     }
- 
+
     if (password !== confirmationPassword) {
-      setMessage("Les mots de passe ne correspondent pas");
+      setMessage("The passwords do not match");
       return;
     }
- 
+
     if (
       !username.trim() ||
       !email.trim() ||
       !password.trim() ||
       !confirmationPassword.trim()
     ) {
-      setMessage("Veuillez remplir tous les champs");
+      setMessage("Please fill in all fields");
       return;
     }
- 
+
     try {
       const emailExists = await fetchSignInMethodsForEmail(auth, email);
       if (emailExists.length > 0) {
-        setMessage("L'adresse e-mail existe déjà");
+        setMessage("The email address already exists");
         return;
       }
- 
+
       await createUserWithEmailAndPassword(auth, email, password);
       await saveUsername(username);
 
@@ -67,7 +67,7 @@ const Signup: React.FC = () => {
       setMessage(error instanceof Error ? error.message : String(error));
     }
   };
- 
+
   return (
     <View style={styles.container}>
       <Image
@@ -75,6 +75,7 @@ const Signup: React.FC = () => {
         source={require("../../assets/images/signup1.png")}
       />
       <Text style={styles.title}>Create an account</Text>
+      <Text style={styles.subtitle}>Sign up to get started!</Text>
       <InputField
         placeholder="Username"
         value={username}
@@ -103,13 +104,16 @@ const Signup: React.FC = () => {
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push("../auth/login")}>
-        <Text style={styles.link}>Already have an account? Login</Text>
+        <Text style={styles.link}>
+          Already have an account?{" "}
+          <Text style={styles.linkHighlight}>Login</Text>
+        </Text>
       </TouchableOpacity>
       <ErrorMessage message={message} />
     </View>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -142,10 +146,20 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     color: "#2E7D32",
   },
+  subtitle: {
+    textAlign: "center",
+    color: "#666",
+    marginBottom: 20,
+    marginTop: -30,
+  },
   link: {
-    color: "#2E7D32",
+    color: "black",
     textAlign: "center",
   },
+  linkHighlight: {
+    color: "#2E7D32",
+    fontWeight: "bold",
+  },
 });
- 
+
 export default Signup;

@@ -8,7 +8,7 @@ type FooterProps = {
   onCartPress: () => void;
   onProfilePress: () => void;
 };
- 
+
 const Footer: React.FC<FooterProps> = ({
   onHomePress,
   onFavoritePress,
@@ -32,7 +32,7 @@ const Footer: React.FC<FooterProps> = ({
     </View>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -56,5 +56,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
- 
+
 export default Footer;

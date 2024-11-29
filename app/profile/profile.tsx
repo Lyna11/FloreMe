@@ -7,17 +7,21 @@ import { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import DeleteAccount from "../auth/delete";
 import Logout from "../auth/logout";
+import { Linking } from "react-native"; // Import Linking to handle phone calls
+import TermsAndConditions from "../shared/termsAndConditions";
 
 export function Profile() {
   const [email, setemail] = useState<string | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalLGVisible, setIsModaLGVisible] = useState(false);
+  const [isModalTermVisible, setIsModalTermVisible] = useState(false);
 
   const getUserEmail = async () => {
     const userString = await AsyncStorage.getItem("user");
     const user = userString ? JSON.parse(userString) : null;
     return user?.email || null;
   };
+
   useEffect(() => {
     const fetchUserEmail = async () => {
       const useremail = await getUserEmail();
@@ -26,6 +30,12 @@ export function Profile() {
 
     fetchUserEmail();
   }, []);
+
+  const handleContactUsPress = () => {
+    const phoneNumber = "0556990010";
+    Linking.openURL(`tel:${phoneNumber}`); // Open the phone dialer with the given number
+  };
+
   return (
     <View style={styles.container}>
       <Header title="Profile" onIconPress={() => router.replace("/map/map")} />
@@ -54,11 +64,15 @@ export function Profile() {
       </TouchableOpacity>
       <View style={styles.privacy}>
         <Ionicons name="shield-checkmark-outline" size={20}></Ionicons>
-        <Text style={styles.term}>Terms & Conditions, privacy</Text>
+        <TouchableOpacity onPress={() => setIsModalTermVisible(true)}>
+          <Text style={styles.term}>Terms & Conditions, privacy</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.contact}>
         <Ionicons name="call-outline" size={20}></Ionicons>
-        <Text style={styles.term}>Contact Us </Text>
+        <TouchableOpacity onPress={handleContactUsPress}>
+          <Text style={styles.term}>Contact Us</Text>
+        </TouchableOpacity>
       </View>
       <DeleteAccount
         visible={isModalVisible}
@@ -67,6 +81,10 @@ export function Profile() {
       <Logout
         visible={isModalLGVisible}
         onClose={() => setIsModaLGVisible(false)}
+      />
+      <TermsAndConditions
+        visible={isModalTermVisible}
+        onClose={() => setIsModalTermVisible(false)}
       />
       <Footer
         onHomePress={() => router.replace("/pernual_api/searchPlant")}
@@ -77,6 +95,7 @@ export function Profile() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -128,12 +147,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "gray",
     textAlign: "center",
-    //in the same line as the icon
     marginLeft: 5,
     marginTop: 3,
   },
   privacy: {
-    alignItems: "center", // Aligne les éléments verticalement au centre
+    alignItems: "center",
     flexDirection: "row",
     marginTop: 80,
     padding: 10,
@@ -155,4 +173,5 @@ const styles = StyleSheet.create({
     marginTop: 120,
   },
 });
+
 export default Profile;
