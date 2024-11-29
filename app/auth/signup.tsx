@@ -33,12 +33,12 @@ const Signup: React.FC = () => {
     setMessage("");
 
     if (!validateEmail(email)) {
-      setMessage("The email is not valid");
+      setMessage("L'e-mail n'est pas valide");
       return;
     }
 
     if (password !== confirmationPassword) {
-      setMessage("The passwords do not match");
+      setMessage("Les mots de passe ne correspondent pas");
       return;
     }
 
@@ -48,14 +48,14 @@ const Signup: React.FC = () => {
       !password.trim() ||
       !confirmationPassword.trim()
     ) {
-      setMessage("Please fill in all fields");
+      setMessage("Veuillez remplir tous les champs");
       return;
     }
 
     try {
       const emailExists = await fetchSignInMethodsForEmail(auth, email);
       if (emailExists.length > 0) {
-        setMessage("The email address already exists");
+        setMessage("L'adresse e-mail existe déjà");
         return;
       }
 
@@ -75,7 +75,6 @@ const Signup: React.FC = () => {
         source={require("../../assets/images/signup1.png")}
       />
       <Text style={styles.title}>Create an account</Text>
-      <Text style={styles.subtitle}>Sign up to get started!</Text>
       <InputField
         placeholder="Username"
         value={username}
@@ -104,10 +103,7 @@ const Signup: React.FC = () => {
         <Text style={styles.buttonText}>Sign up</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.push("../auth/login")}>
-        <Text style={styles.link}>
-          Already have an account?{" "}
-          <Text style={styles.linkHighlight}>Login</Text>
-        </Text>
+        <Text style={styles.link}>Already have an account? Login</Text>
       </TouchableOpacity>
       <ErrorMessage message={message} />
     </View>
@@ -146,19 +142,9 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     color: "#2E7D32",
   },
-  subtitle: {
-    textAlign: "center",
-    color: "#666",
-    marginBottom: 20,
-    marginTop: -30,
-  },
   link: {
-    color: "black",
-    textAlign: "center",
-  },
-  linkHighlight: {
     color: "#2E7D32",
-    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

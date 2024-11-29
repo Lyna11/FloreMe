@@ -31,7 +31,7 @@ const PlantMapComponent = () => {
   useEffect(() => {
     if (query.length > 2) {
       fetch(
-        `https://perenual.com/api/species-list?key=sk-G7ju6746e229d6d0b7737&q=${query}`
+        `https://perenual.com/api/species-list?key=sk-C0qf6749c5ca211a97824&q=${query}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -50,7 +50,7 @@ const PlantMapComponent = () => {
 
   const handleSelectPlant = async (plantId: number) => {
     setSelectedPlantId(plantId);
-    const url = `https://perenual.com/api/hardiness-map?key=sk-G7ju6746e229d6d0b7737&species_id=${plantId}`;
+    const url = `https://perenual.com/api/hardiness-map?key=sk-C0qf6749c5ca211a97824&species_id=${plantId}`;
     setMapUrl(url);
 
     // Ouvrir le navigateur

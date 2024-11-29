@@ -46,7 +46,7 @@ const SearchPlant: React.FC = () => {
       for (let page = 1; page <= pagesToFetch; page++) {
         fetches.push(
           fetch(
-            `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a7778&page=${page}`
+            `https://perenual.com/api/species-list?key=sk-C0qf6749c5ca211a97824&page=${page}`
           )
             .then((response) => response.json())
             .then((data) => data.data || [])
@@ -71,7 +71,7 @@ const SearchPlant: React.FC = () => {
   const fetchPlantDetails = async (id: number) => {
     try {
       const response = await fetch(
-        `https://perenual.com/api/species-care-guide-list?key=sk-3O5R6745e306933a7778&species_id=${id}`
+        `https://perenual.com/api/species-care-guide-list?key=sk-C0qf6749c5ca211a97824&species_id=${id}`
       );
       const data = await response.json();
       setSelectedPlant(data.data[0]);
@@ -90,7 +90,7 @@ const SearchPlant: React.FC = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://perenual.com/api/species-list?key=sk-3O5R6745e306933a7778&q=${query}`
+        `https://perenual.com/api/species-list?key=sk-C0qf6749c5ca211a97824&q=${query}`
       );
       const data = await response.json();
       setSearchResults(data.data || []);
