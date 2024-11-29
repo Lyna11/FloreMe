@@ -6,7 +6,7 @@ export default function RootLayout() {
     <ThemeProvider value={DefaultTheme}>
       <Stack
         screenOptions={{
-          gestureEnabled: false, // Désactive les gestes pour toutes les pages
+          gestureEnabled: false,
         }}
       >
         <Stack.Screen

@@ -6,8 +6,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
 import SearchPlant from "../pernual_api/searchPlant";
 import LoginForm from "../../components/LoginForm";
-import WelcomeMessage from "../../components/WelcomeMessage";
- 
+
 const Login: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -15,11 +14,11 @@ const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
- 
+
   useEffect(() => {
     checkSession();
   }, []);
- 
+
   const checkSession = async () => {
     try {
       const user = await AsyncStorage.getItem("user");
@@ -32,7 +31,7 @@ const Login: React.FC = () => {
       console.error("Error checking session:", error);
     }
   };
- 
+
   const saveSession = async (user: any) => {
     try {
       await AsyncStorage.setItem("user", JSON.stringify(user));
@@ -40,7 +39,7 @@ const Login: React.FC = () => {
       console.error("Error saving session:", error);
     }
   };
- 
+
   const handleLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -54,11 +53,11 @@ const Login: React.FC = () => {
         setErrorMessage("Login failed: " + error.message);
       });
   };
- 
+
   const handleLogout = async () => {
     router.replace("../auth/logout");
   };
- 
+
   return (
     <View style={styles.container}>
       {isLoggedIn ? (
@@ -77,7 +76,7 @@ const Login: React.FC = () => {
     </View>
   );
 };
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -86,5 +85,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
- 
+
 export default Login;

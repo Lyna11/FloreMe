@@ -21,7 +21,7 @@ interface PlantCardProps {
 
   onPress: () => void;
 }
- 
+
 const PlantCard: React.FC<PlantCardProps> = ({ plant, onPress }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onPress }) => {
     });
     console.log("Plante sauvegardée dans Firestore");
   };
- 
+
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <Image
@@ -65,10 +65,10 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onPress }) => {
         style={styles.image}
       />
       <Text style={styles.commonName}>
-        {plant.common_name || "Nom commun inconnu"}
+        {plant.common_name || "Unknown common name"}
       </Text>
       <Text style={styles.scientificName}>
-        {plant.scientific_name.join(", ") || "Nom scientifique inconnu"}
+        {plant.scientific_name.join(", ") || "Unknown scientific name"}
       </Text>
       <TouchableOpacity
         onPress={toggleFavorite} // Appel de la fonction pour gérer l'ajout aux favoris
@@ -83,7 +83,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, onPress }) => {
     </TouchableOpacity>
   );
 };
- 
+
 const styles = StyleSheet.create({
   card: {
     flex: 1,
@@ -119,5 +119,5 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
- 
+
 export default PlantCard;

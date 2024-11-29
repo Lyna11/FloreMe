@@ -23,18 +23,22 @@ const ImagePickerComponent = () => {
 
   const handleImagePicker = async () => {
     Alert.alert(
-      "Choisir une action",
-      "Sélectionnez une option :",
+      "Choose an action",
+
+      "Select an option:",
+
       [
         {
-          text: "Prendre une photo",
+          text: "Take a photo",
+
           onPress: captureImageWithCamera,
         },
         {
-          text: "Sélectionner une image",
+          text: "Select an image",
+
           onPress: pickImageFromGallery,
         },
-        { text: "Annuler", style: "cancel" },
+        { text: "Cancel", style: "cancel" },
       ],
       { cancelable: true }
     );
@@ -55,7 +59,7 @@ const ImagePickerComponent = () => {
         fetchPlantName(result.assets[0].uri); // Appeler la fonction pour récupérer le nom de la plante
       }
     } else {
-      alert("Permission caméra refusée !");
+      alert("Camera permission denied!");
     }
   };
 
@@ -75,7 +79,7 @@ const ImagePickerComponent = () => {
         fetchPlantName(result.assets[0].uri); // Appeler la fonction pour récupérer le nom de la plante
       }
     } else {
-      alert("Permission refusée pour accéder à la galerie !");
+      alert("Permission denied to access the gallery!");
     }
   };
 
@@ -100,7 +104,7 @@ const ImagePickerComponent = () => {
       if (!serverResponse.ok) {
         const errorText = await serverResponse.text();
         console.error("Erreur du serveur:", errorText);
-        setPlantName("Erreur de traitement");
+        setPlantName("Processing error");
         return;
       }
 
@@ -108,11 +112,11 @@ const ImagePickerComponent = () => {
       if (result.suggestions && result.suggestions.length > 0) {
         setPlantName(result.suggestions[0].plant_name);
       } else {
-        setPlantName("Plante non trouvée");
+        setPlantName("Plant not found");
       }
     } catch (error) {
       console.error("Erreur lors de l'envoi de l'image:", error);
-      setPlantName("Erreur de traitement");
+      setPlantName("Processing error");
     }
   };
 
@@ -177,24 +181,24 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 350, // Taille fixe de l'image
+    height: 350,
     resizeMode: "cover",
-    marginBottom: 10, // Réduit l'espace entre l'image et les icônes
+    marginBottom: 10,
     transform: [{ scale: 1.5 }],
     paddingTop: 50,
     marginTop: 50,
   },
   iconContainer: {
-    flexDirection: "column", // Changer la direction en colonne
-    justifyContent: "center", // Centrer les éléments verticalement
-    alignItems: "center", // Centrer les éléments horizontalement
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginVertical: 100,
   },
   buttonText: {
     color: "black",
     fontSize: 20,
     fontWeight: "bold",
-    marginTop: 5, // Espacement entre l'icône et le text
+    marginTop: 5,
   },
   imageContainer: {
     alignItems: "center",
@@ -206,7 +210,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 16,
     borderRadius: 10,
-    // monter l'image pour laisser de l'espace pour le nom de la plante
   },
   plantName: {
     fontSize: 16,

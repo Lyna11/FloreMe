@@ -29,12 +29,12 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ visible, onClose }) => {
     const user = auth.currentUser;
 
     if (!user) {
-      Alert.alert("Erreur", "Aucun utilisateur connecté");
+      Alert.alert("Error", "No user logged in");
       return;
     }
 
     if (!password) {
-      Alert.alert("Erreur", "Veuillez entrer votre mot de passe");
+      Alert.alert("Error", "Please enter your password");
       return;
     }
 
@@ -52,13 +52,13 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ visible, onClose }) => {
       // Supprimer la session de AsyncStorage
       await AsyncStorage.removeItem("user");
 
-      Alert.alert("Succès", "Votre compte a été supprimé avec succès.");
+      Alert.alert("Success", "Your account has been successfully deleted.");
       onClose(); // Fermer la modal après suppression
       router.replace("/auth/signup");
     } catch (error) {
       Alert.alert(
-        "Erreur",
-        error instanceof Error ? error.message : "Une erreur est survenue"
+        "Error",
+        error instanceof Error ? error.message : "An error has occurred"
       );
     }
   };
@@ -74,14 +74,14 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ visible, onClose }) => {
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Delete Account</Text>
           <Text style={styles.modalDescription}>
-            Pour supprimer votre compte, veuillez entrer votre mot de passe.
+            To delete your account, please enter your password.{" "}
           </Text>
 
           {/* Champ de mot de passe */}
           <TextInput
             style={styles.input}
             secureTextEntry={true}
-            placeholder="Mot de passe"
+            placeholder="Password"
             value={password}
             onChangeText={setPassword}
           />
@@ -90,10 +90,10 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ visible, onClose }) => {
             style={styles.deleteButton}
             onPress={handleDeleteAccount}
           >
-            <Text style={styles.deleteButtonText}>Supprimer mon compte</Text>
+            <Text style={styles.deleteButtonText}>Delete my account</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
-            <Text style={styles.cancelButtonText}>Annuler</Text>
+            <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
       </View>

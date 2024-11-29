@@ -33,7 +33,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       source={require("../assets/images/imageLogin.png")}
     />
     <Text style={styles.title}>
-      Welcome <Text style={styles.highlight}>Plants</Text>
+      Welcome <Text style={styles.highlight}>back</Text>
     </Text>
     <Text style={styles.subtitle}>Login to your account</Text>
     <TextInput

@@ -24,11 +24,11 @@ const Logout: React.FC<LogoutProps> = ({ visible, onClose }) => {
       await signOut(auth);
       // Supprime la session utilisateur stockée localement
       await AsyncStorage.removeItem("user");
-      Alert.alert("Succès", "Vous êtes déconnecté.");
+      Alert.alert("Success", "You have been logged out.");
       onClose(); // Fermer la modal après déconnexion
       router.replace("/auth/login");
     } catch (error) {
-      console.error("Erreur lors de la déconnexion :", error);
+      console.error("Error during logout:", error);
     }
   };
 

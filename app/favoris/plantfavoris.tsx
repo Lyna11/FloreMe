@@ -21,7 +21,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../shared/header";
 import Footer from "../shared/footer";
 import { router } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons"; // Bibliothèque pour les icônes
+import { MaterialIcons } from "@expo/vector-icons";
 import PlantModal from "@/components/PlantModal";
 
 const PlantFavoris = () => {
@@ -159,17 +159,17 @@ const PlantFavoris = () => {
     return (
       <View style={styles.noFavoritesContainer}>
         <Header
-          title="Favoris"
+          title="Favorites"
           onIconPress={() => router.replace("/map/map")}
         />
         <Text style={styles.noFavoritesText}>
-          Vous n'avez pas encore de plantes favorites.
+          You don't have any favorite plants yet.
         </Text>
         <Text
           style={styles.addFavoriteLink}
           onPress={() => router.replace("../pernual_api/searchPlant")}
         >
-          Ajoutez-en maintenant !
+          Add some now!
         </Text>
         <Footer
           onHomePress={() => router.replace("/pernual_api/searchPlant")}
@@ -185,7 +185,10 @@ const PlantFavoris = () => {
 
   return (
     <View style={styles.container}>
-      <Header title="Favoris" onIconPress={() => router.replace("/map/map")} />
+      <Header
+        title="Favorites"
+        onIconPress={() => router.replace("/map/map")}
+      />
       <FlatList
         data={plants}
         keyExtractor={(item) => item.id}
