@@ -185,10 +185,7 @@ const PlantFavoris = () => {
 
   return (
     <View style={styles.container}>
-      <Header
-        title="Favoris"
-        onIconPress={() => console.log("Icône de la Terre pressée!")}
-      />
+      <Header title="Favoris" onIconPress={() => router.replace("/map/map")} />
       <FlatList
         data={plants}
         keyExtractor={(item) => item.id}
